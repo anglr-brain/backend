@@ -8,13 +8,13 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @ApiOperation({ summary: "Get all users" })
+  @ApiOperation({ summary: "Retrieve all users" })
   @Get()
   public getUsers(): Promise<User[]> {
     return this.usersService.getUsers();
   }
 
-  @ApiOperation({ summary: "Get user by ID" })
+  @ApiOperation({ summary: "Retrieve a specific user by ID" })
   @Get(":id")
   public getUser(@Param("id") id: string): Promise<User> {
     return this.usersService.getUser(id);
