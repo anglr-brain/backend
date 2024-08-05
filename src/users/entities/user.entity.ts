@@ -1,30 +1,34 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { UserRole, UserTier } from "src/users/enums/index";
 
 @Entity("users")
 export class User {
   @PrimaryGeneratedColumn("uuid")
   public id: string;
 
-  @Column()
+  @Column({ unique: true })
   public email: string;
 
   @Column()
-  public firstName: string;
+  public firstname: string;
 
   @Column()
-  public lastName: string;
+  public lastname: string;
 
   @Column()
+  public country: string;
+
+  @Column({ unique: true })
   public username: string;
 
   @Column()
   public password: string;
 
-  @Column()
-  public role: string;
+  @Column({ type: "enum", enum: UserRole })
+  public role: UserRole;
 
-  @Column()
-  public tier: string;
+  @Column({ type: "enum", enum: UserTier })
+  public tier: UserTier;
 
   @Column()
   public verified: boolean;
