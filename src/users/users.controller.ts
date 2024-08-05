@@ -13,8 +13,8 @@ import { User } from "./entities/user.entity";
 import { ApiOperation, ApiQuery, ApiTags } from "@nestjs/swagger";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto/pagination-query.dto";
 import { UsersPaginationResponseDto } from "./dto/users-pagination-response.dto";
+import { PaginationQueryDto } from "src/common/dto/pagination-query.dto/pagination-query.dto";
 
 @ApiTags("users")
 @Controller("users")
