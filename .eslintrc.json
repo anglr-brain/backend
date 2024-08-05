@@ -1,10 +1,10 @@
 {
-    "root": true,
-    "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/eslintrc.json",
-    "extends": "@coara/eslint-config-ng",
-    "ignorePatterns": ["node_modules", "dist"],
-    "rules": {
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "@angular-eslint/template/no-negated-async": "off"
-    }
+  "root": true,
+  "$schema": "https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/eslintrc.json",
+  "extends": "@coara/eslint-config-nest",
+  "ignorePatterns": ["node_modules", "dist"],
+  "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@angular-eslint/template/no-negated-async": "off"
+  }
 }
