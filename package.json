@@ -32,7 +32,7 @@
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
-    "@coara/eslint-config-ng": "^1.0.23",
+    "@coara/eslint-config-nest": "^1.0.12",
     "@coara/prettier-config": "^1.0.11",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
