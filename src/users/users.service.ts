@@ -9,11 +9,17 @@ import { User } from "./entities/user.entity";
 import { Repository } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UpdateUserDto } from "./dto/update-user.dto";
-import { PaginationQueryDto } from "src/common/dto/pagination-query.dto/pagination-query.dto";
+import {
+  OrderDirection,
+  PaginationQueryDto,
+} from "src/common/dto/pagination-query.dto/pagination-query.dto";
 import { UsersPaginationResponseDto } from "./dto/users-pagination-response.dto";
+import { offset } from "src/utils/offset";
 
 @Injectable()
 export class UsersService {
+  private readonly orderDir: typeof OrderDirection = OrderDirection;
+
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
@@ -22,15 +28,23 @@ export class UsersService {
   public async getUsers(
     paginationQuery: PaginationQueryDto,
   ): Promise<UsersPaginationResponseDto> {
-    const { limit = 10, page = 1 } = paginationQuery;
-    const offset = (page - 1) * limit;
+    const {
+      limit = 10,
+      page = 1,
+      orderBy = "createdAt",
+      orderDirection = this.orderDir.ASC,
+    } = paginationQuery;
+
+    const queryBuilder = this.userRepository.createQueryBuilder("user");
+
+    if (orderBy) {
+      queryBuilder.orderBy(`user.${orderBy}`, orderDirection);
+    }
+
+    queryBuilder.skip(offset(page, limit)).take(limit);
 
     try {
-      const [users, total] = await this.userRepository.findAndCount({
-        skip: offset,
-        take: limit,
-      });
-
+      const [users, total] = await queryBuilder.getManyAndCount();
       const pageCount = Math.ceil(total / limit);
 
       return {
@@ -75,16 +89,13 @@ export class UsersService {
     try {
       return await this.userRepository.save(user);
     } catch (error) {
-      console.error("Error updating user:", error);
-
       throw new InternalServerErrorException();
     }
   }
 
   public async deleteUser(id: string): Promise<void> {
     try {
-      const user = await this.getUser(id);
-      await this.userRepository.remove(user);
+      await this.userRepository.delete(id);
     } catch {
       throw new InternalServerErrorException();
     }

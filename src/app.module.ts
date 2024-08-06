@@ -19,6 +19,8 @@ import { ConfigModule } from "@nestjs/config";
       synchronize: process.env.NODE_ENV === "development",
       logging: process.env.NODE_ENV === "development",
     }),
+
+    // V1
     UsersModule,
   ],
   controllers: [AppController],

@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { UserRole, UserTier } from "../enums";
 
 @Entity("users")
@@ -14,6 +19,9 @@ export class User {
 
   @Column()
   public lastname: string;
+
+  @Column({ type: "date" })
+  public birthdate: Date;
 
   @Column()
   public country: string;
@@ -32,4 +40,7 @@ export class User {
 
   @Column()
   public verified: boolean;
+
+  @CreateDateColumn({ type: "timestamp" })
+  public createdAt: Date;
 }
