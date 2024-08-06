@@ -16,8 +16,8 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UsersPaginationResponseDto } from "./dto/users-pagination-response.dto";
 import { PaginationQueryDto } from "src/common/dto/pagination-query.dto/pagination-query.dto";
 
-@ApiTags("users")
-@Controller("users")
+@ApiTags("Users")
+@Controller({ path: "users", version: "1" })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -33,6 +33,18 @@ export class UsersController {
     required: false,
     type: Number,
     description: "Default value: 1",
+  })
+  @ApiQuery({
+    name: "orderBy",
+    required: false,
+    type: String,
+    description: "Default value: createdAt",
+  })
+  @ApiQuery({
+    name: "orderDirection",
+    required: false,
+    type: String,
+    description: "Default value: ASC",
   })
   @Get()
   public getUsers(

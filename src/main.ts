@@ -1,20 +1,15 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { ValidationPipe } from "@nestjs/common";
+import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
-async function bootstrap() {
+async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  // Swagger Config
-  const options = new DocumentBuilder()
-    .setTitle("AnglrBrain")
-    .setDescription("API Documentation")
-    .setVersion("1.0")
-    .build();
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup("api", app, document);
+  const config: ConfigService = app.get(ConfigService);
+
+  app.enableVersioning({ type: VersioningType.URI });
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -27,6 +22,15 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(3000);
+  const options = new DocumentBuilder()
+    .setTitle("AnglrBrain")
+    .setVersion("1.0")
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup("docs", app, document);
+
+  const port = config.get<number>("PORT");
+  await app.listen(port);
 }
 bootstrap();
